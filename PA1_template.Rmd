@@ -23,11 +23,26 @@ medianDailySteps<-median(sumSteps$totSteps)
 
 
 ## What is the average daily activity pattern?
-
+```{r}
+ grByInt<-group_by(actData, as.numeric(row.names(actData))%%288)
+what<-summarize(grByInt, mean(steps, na.rm=TRUE))
+names(what)<-c("interval","steps")
+plot(x=what$interval,y=what$steps, type="l")
+tablewhat[which.max(what$steps),]
+```
 
 
 ## Imputing missing values
+```{r}
+sum(is.na(actData$steps))
+newActData<-grByInt
+newActData$steps[is.na(newActData$steps)] <- what$steps[newActData$intGrp]
 
+sumStepsNew<-group_by(newActData, date)%>%summarize(totSteps=sum(steps,na.rm=TRUE))
+hist(sumStepNew$totSteps)
+meanDailyStepsNew<-mean(sumStepsNew$totSteps)
+medianDailyStepsNew<-median(sumStepsNew$totSteps)
+```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
