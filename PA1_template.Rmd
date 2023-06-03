@@ -7,11 +7,19 @@ output:
 
 
 ## Loading and preprocessing the data
-
-
+```{r}
+actData<-read.csv("activity.csv")
+ actDate0<-as.Date(actData$date)
+ actData$date<-actDate0
+```
 
 ## What is mean total number of steps taken per day?
-
+```{r}
+sumSteps<-group_by(actData, date)%>%summarize(totSteps=sum(steps,na.rm=TRUE))
+hist(sumSteps$totSteps)
+meanDailySteps<-mean(sumSteps$totSteps)
+medianDailySteps<-median(sumSteps$totSteps)
+```
 
 
 ## What is the average daily activity pattern?
