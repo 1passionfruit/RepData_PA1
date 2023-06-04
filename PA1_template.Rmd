@@ -46,3 +46,11 @@ medianDailyStepsNew<-median(sumStepsNew$totSteps)
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r}
+ newActData$daytype <- as.factor(ifelse(weekdays(newActData$date)=='Sunday'|weekdays(newActData$date)=='Saturday', 'weekend','weekday'))
+grByIntWd<-group_by(newActData, daytype, as.numeric(row.names(newActData))%%288)
+nowwhat<-summarize(grByIntWd, mean(steps, na.rm=TRUE))
+names(nowwhat)<-c("daytype","interval","steps")
+p9<-ggplot(nowwhat)+geom_line(mapping=aes(x=interval, y=steps))+facet_grid(~daytype)
+print(p9)
+```
